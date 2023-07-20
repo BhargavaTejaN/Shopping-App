@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import "./index.css";
@@ -14,6 +14,7 @@ const Login = (props) => {
 
   const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const jwtToken = Cookies.get("jwt_token");
 
   const handleChange = (event) => {
     setFormData((prevstate) => ({
@@ -96,6 +97,10 @@ const Login = (props) => {
       console.log("Error While Loggin in Login Page : ", error);
     }
   };
+
+  if(jwtToken !== undefined){
+    return <Navigate to="/" replace />
+  }
 
   return (
     <div className="login-form-container">
