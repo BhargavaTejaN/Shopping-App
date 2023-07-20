@@ -1,14 +1,30 @@
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+
+import { CartContext } from "../../context/index";
+
 import "./index.css";
 
 const NavBar = () => {
+  const { cartList } = useContext(CartContext);
 
   const navigate = useNavigate();
 
   const onClickLogout = () => {
     Cookies.remove("jwt_token");
-    navigate("/login",{replace : true});
+    navigate("/login", { replace: true });
+  };
+
+  const renderCartItemsCount = () => {
+    const cartItemsCount = cartList.length;
+    return (
+      <>
+        {cartItemsCount > 0 ? (
+          <span className="cart-count-badge">{cartList.length}</span>
+        ) : null}
+      </>
+    );
   };
 
   return (
@@ -38,6 +54,7 @@ const NavBar = () => {
             <li className="nav-menu-item">
               <Link to="/cart" className="nav-link">
                 Cart
+                {renderCartItemsCount()}
               </Link>
             </li>
           </ul>
